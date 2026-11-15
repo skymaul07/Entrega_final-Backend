@@ -5,6 +5,7 @@ import {
   getDoc, 
   doc, 
   addDoc, 
+  updateDoc,
   deleteDoc 
 } from 'firebase/firestore';
 
@@ -45,6 +46,18 @@ export const createProduct = async (productData) => {
     return { id: docRef.id, ...productData };
   } catch (error) {
     throw new Error(`Error al crear producto: ${error.message}`);
+  }
+};
+
+// Actualizar un producto por ID
+export const updateProduct = async (id, productData) => {
+  try {
+    const docRef = doc(db, COLLECTION_NAME, id);
+    await updateDoc(docRef, productData);
+    const updatedDoc = await getDoc(docRef);
+    return { id: updatedDoc.id, ...updatedDoc.data() };
+  } catch (error) {
+    throw new Error(`Error al actualizar producto: ${error.message}`);
   }
 };
 

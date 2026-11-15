@@ -24,7 +24,6 @@ export const getProductByIdService = async (id) => {
 
 // Crear un nuevo producto
 export const createProductService = async (productData) => {
-  // Validación básica
   if (!productData.title || !productData.price || !productData.category) {
     return { 
       success: false, 
@@ -40,9 +39,24 @@ export const createProductService = async (productData) => {
   return { success: true, data: newProduct, message: 'Producto creado exitosamente' };
 };
 
+// Actualizar un producto
+export const updateProductService = async (id, productData) => {
+  const product = await productModel.getProductById(id);
+  
+  if (!product) {
+    return { success: false, message: `Producto con ID ${id} no encontrado` };
+  }
+  
+  if (productData.price !== undefined && productData.price <= 0) {
+    return { success: false, message: 'El precio debe ser mayor a 0' };
+  }
+  
+  const updatedProduct = await productModel.updateProduct(id, productData);
+  return { success: true, data: updatedProduct, message: 'Producto actualizado exitosamente' };
+};
+
 // Eliminar un producto
 export const deleteProductService = async (id) => {
-  // Primero verificamos que exista
   const product = await productModel.getProductById(id);
   
   if (!product) {
