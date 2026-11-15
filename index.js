@@ -8,6 +8,7 @@ import authRouter from './src/routes/auth.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0'; // 👈 ESTO ES CLAVE PARA RENDER
 
 // ==========================================
 // MIDDLEWARES GLOBALES
@@ -42,6 +43,6 @@ app.use((req, res) => {
 // ==========================================
 // LEVANTAR EL SERVIDOR
 // ==========================================
-app.listen(PORT, () => {
-  console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`✅ Servidor corriendo en http://${HOST}:${PORT}`);
 });
